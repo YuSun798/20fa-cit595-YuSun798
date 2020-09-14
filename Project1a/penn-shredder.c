@@ -138,9 +138,9 @@ void writeToStdout(char *text) {
  * that it is null terminated */
 char *getCommandFromInput() {
     // read in by call
-    char * buffer = NULL;
-    buffer = (char*) malloc(1024*sizeof(char));
-    read(cmd，buffer);
+    char buffer[INPUT_SIZE];
+    int n;
+    if ((n=read(0,buffer,INPUT_SIZE))==0){exit(EXIT_FAILURE);}
     // check ctrl+D
     // add characters into a buffer
     // malloc 1024 + \0
