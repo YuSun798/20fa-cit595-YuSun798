@@ -138,12 +138,21 @@ void writeToStdout(char *text) {
  * that it is null terminated */
 char *getCommandFromInput() {
     // read in by call
-    char buffer[INPUT_SIZE];
-    int n;
-    if ((n=read(0,buffer,INPUT_SIZE))==0){exit(EXIT_FAILURE);}
+    char *inputBuffer=(char*) malloc(INPUT_SIZE);
+    //buffer = (char*) malloc(1024*sizeof(char));
+    int numBytes = read(STDOUT_FILENO, inputBuffer, INPUT_SIZE);
+    if (numBytes==0){exit(EXIT_FAILURE);}
+    char command[INPUT_SIZE];
+    int i=0;
+    for(i=0;i<INPUT_SIZE;i++){
+        command[i]=inputBuffer[i];
+        if (command[i]=='\n'){
+            break;
+        }
+    }
     // check ctrl+D
     // add characters into a buffer
     // malloc 1024 + \0
     // return the buffer
-    return buffer;
+    return inputBuffer;
 }
